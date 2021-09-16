@@ -1,76 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import style from '../styles/index.module.sass'
 import { useFetch } from '../lib/useFetch'
-import { BlogResult, Item } from '../interfaces/Blog'
-import { formatDate } from '../components/Blog'
-import { Codesandbox, Facebook, GitHub, Linkedin, Twitter } from 'react-feather'
-
+import { BlogResult } from '../interfaces/Blog'
+import { Code, Codesandbox, Facebook, GitHub, Linkedin, Mail, Twitter } from 'react-feather'
+import Blog from '../components/Blog'
+import Profile from '../components/Profile'
+import Portfolio from '../components/Portfolio'
 
 const Header = () => {
+
+  const links = [
+    {component: <GitHub color="white"/>, link: 'https://github.com/agunbuhori'},
+    {component: <Codesandbox color="white"/>, link: 'https://codesandbox.io/u/agunbuhori'},
+    {component: <Code color="white"/>, link: 'https://hackerrank.com/agunbuhori'},
+    {component: <Linkedin color="white"/>, link: 'https://linkedin.com/in/agunbuhori'},
+    {component: <Twitter color="white"/>, link: 'https://twitter.com/agunbuhori'},
+    {component: <Facebook color="white"/>, link: 'https://facebook.com/agunbhr'}
+  ]
 
   return (
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-4xl bh-font text-yellow-200">Agun Buhori</h1>
       <h4 className="text-xl font-semibold text-white">Software Engineer</h4>
       <div className="my-6 flex w-full space-x-4 justify-center">
-        <a href="https://github.com/agunbuhori" target="_blank" rel="noreferrer">
-          <GitHub color="white"/>
-        </a>
-        <a href="https://codesandbox.io/u/agunbuhori" target="_blank" rel="noreferrer">
-          <Codesandbox color="white"/>
-        </a>
-        <a href="https://linkedin.com/in/agunbuhori" target="_blank" rel="noreferrer">
-          <Linkedin color="white"/>
-        </a>
-        <a href="https://twitter.com/agunbuhori" target="_blank" rel="noreferrer">
-          <Twitter color="white"/>
-        </a>
-        <a href="https://facebook.com/agunbhr" target="_blank" rel="noreferrer">
-          <Facebook color="white"/>
-        </a>
+        {links.map((link, index) => (
+          <a href={link.link} target="_blank" rel="noreferrer" key={index}>
+            {link.component}
+          </a>
+        ))}
       </div>
     </div>
   )
 }
 
-const BlogFetching = () => {
+const Tab = ({active, changeTab}: {active: number, changeTab: Function}) => {
+  const tabs = ["Blog", "My Profile", "Portfolio"]
   return (
-    <div className="border border-gray-300 shadow rounded-lg p-4 w-full mx-auto">
-      <div className="animate-pulse flex space-x-4">
-        <div className="flex-1 space-y-4 py-1">
-          <div className="h-4 bg-gray-400 rounded w-3/4"></div>
-          <div className="space-y-2">
-            <div className="h-2 bg-gray-400 rounded"></div>
-            <div className="h-2 bg-gray-400 rounded w-5/6"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const Blog = ({blog, fetching}: {blog: Item[] | undefined, fetching: boolean}) => {
-  if (fetching) return <BlogFetching/>
-
-  return (
-    <div className="space-y-3">
-      {blog?.map((item, index) => (
-        <Link key={index} passHref href={'/read/'+item.id}>
-          <div className="rounded-lg border border-yellow-200 p-4 hover:shadow-lg cursor-pointer">
-            <h4 className="font-bold text-xl text-yellow-200">{item.title}</h4>
-            <span className="text-gray-300">{item.author.displayName}, {formatDate(item.published)}</span>
-          </div>
-        </Link>
+    <div className="mb-5 w-full flex justify-center">
+      {tabs.map((tab, index) => (
+        <a href="#" onClick={() => changeTab(index)} key={index} className={'border-b-2 transition-all p-2 text-lg font-bold ' + (active == index ? 'text-yellow-200 border-yellow-200' : 'text-gray-500 border-gray-500')}>{tab}</a>
       ))}
     </div>
   )
 }
 
+const TabMemo = React.memo(Tab)
+
 const Home: NextPage = () => {
   const {fetching, data: blog} = useFetch<BlogResult>('posts')
+  const [active, setActive] = useState(0)
+
+  const changeTab = useCallback((id) => {
+    setActive(id)
+  }, [])
 
   return (
     <div>
@@ -82,7 +67,10 @@ const Home: NextPage = () => {
 
       <div className={style.wrapper}>
         <Header/>
-        <Blog blog={blog?.items} fetching={fetching}/>
+        <TabMemo active={active} changeTab={changeTab}/>
+        {active == 0 && <Blog fetching={fetching} blog={blog?.items}/>}
+        {active == 1 && <Profile/>}
+        {active == 2 && <Portfolio/>}
       </div>
     </div>
   )
