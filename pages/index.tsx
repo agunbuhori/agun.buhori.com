@@ -38,7 +38,7 @@ const Tab = ({active, changeTab}: {active: number, changeTab: Function}) => {
   return (
     <div className="mb-5 w-full flex justify-center">
       {tabs.map((tab, index) => (
-        <a href="#" onClick={() => changeTab(index)} key={index} className={'border-b-2 transition-all p-2 text-lg font-bold ' + (active == index ? 'text-yellow-200 border-yellow-200' : 'text-gray-500 border-gray-500')}>{tab}</a>
+        <a href="javascript:void(0)" onClick={() => changeTab(index)} key={index} className={'border-b-2 transition-all p-2 text-lg font-bold ' + (active == index ? 'text-yellow-200 border-yellow-200' : 'text-gray-500 border-gray-500')}>{tab}</a>
       ))}
     </div>
   )
