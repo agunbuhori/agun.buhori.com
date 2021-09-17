@@ -55,7 +55,7 @@ const Portfolio = () => {
     if (fetching) return <PortfolioFetching/>
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
             {
                 portfolio?.map((item, index) => (
                     <a key={index} href={item.link} target="_blank" rel="noreferrer" className="p-4 rounded-lg border-yellow-200 border">

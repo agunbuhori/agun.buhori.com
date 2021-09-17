@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Item } from '../interfaces/Blog'
 import Link from 'next/link'
 import { formatDate } from '../lib/helpers'
@@ -20,12 +20,13 @@ const BlogFetching = () => {
   }
   
   const Blog = ({blog, fetching}: {blog: Item[] | undefined, fetching: boolean}) => {
+  
     if (fetching) return <BlogFetching/>
     return (
       <div className="space-y-3">
         {blog?.map((item, index) => (
           <Link key={index} passHref href={'/read/'+item.id}>
-            <div className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
+            <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
               <h4 className="font-bold text-xl text-yellow-200 hover:text-yellow-300 transition-all">{item.title}</h4>
               <span className="text-gray-200 text-sm">{item.author.displayName}, {formatDate(item.published)}</span>
             </div>

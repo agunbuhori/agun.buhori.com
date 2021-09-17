@@ -19,4 +19,5 @@ export interface ProfileSnapshot {
     educations: Education[]
     works: Work[]
     skills: Skill[]
+    summary: string
 }

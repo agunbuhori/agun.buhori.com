@@ -3,7 +3,10 @@ import '../styles/globals.sass'
 import type { AppProps } from 'next/app'
 
 import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
+import { getAnalytics, logEvent } from 'firebase/analytics'
+import { useEffect } from 'react'
+
+const AOS = require('aos')
 
 const firebaseConfig = {
   apiKey: "AIzaSyBkYgF6vpuVgj7Qa3Vk2AOZFP5no7MwJOM",
@@ -17,8 +20,14 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+const analytics = () => getAnalytics()
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    AOS.init({
+      duration: 2000
+    })
+  }, [])
   return <Component {...pageProps} />
 }
 export default MyApp
