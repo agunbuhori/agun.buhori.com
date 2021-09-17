@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
-import { Item } from '../interfaces/Blog'
+import React from 'react'
+import { BlogResult, Item } from '../interfaces/Blog'
 import Link from 'next/link'
 import { formatDate } from '../lib/helpers'
+import { useFetch } from '../lib/useFetch'
 
 const BlogFetching = () => {
     return (
@@ -19,12 +20,14 @@ const BlogFetching = () => {
     )
   }
   
-  const Blog = ({blog, fetching}: {blog: Item[] | undefined, fetching: boolean}) => {
-  
+  const Blog = () => {
+    const {fetching, data: blog} = useFetch<BlogResult>('posts')
+    
     if (fetching) return <BlogFetching/>
+
     return (
       <div className="space-y-3">
-        {blog?.map((item, index) => (
+        {blog?.items.map((item, index) => (
           <Link key={index} passHref href={'/read/'+item.id}>
             <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
               <h4 className="font-bold text-xl text-yellow-200 hover:text-yellow-300 transition-all">{item.title}</h4>

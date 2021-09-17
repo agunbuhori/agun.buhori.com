@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import style from '../styles/index.module.sass'
-import { useFetch } from '../lib/useFetch'
-import { BlogResult } from '../interfaces/Blog'
 import { Code, Codesandbox, Facebook, GitHub, Linkedin, Mail, Twitter } from 'react-feather'
 import Blog from '../components/Blog'
 import Profile from '../components/Profile'
@@ -50,7 +47,6 @@ const Tab = ({active, changeTab}: {active: number, changeTab: Function}) => {
 const TabMemo = React.memo(Tab)
 
 const Home: NextPage = () => {
-  const {fetching, data: blog} = useFetch<BlogResult>('posts')
   const [active, setActive] = useState(0)
 
   const changeTab = useCallback((id) => {
@@ -68,7 +64,7 @@ const Home: NextPage = () => {
       <div className={style.wrapper}>
         <Header/>
         <TabMemo active={active} changeTab={changeTab}/>
-        {active == 0 && <Blog fetching={fetching} blog={blog?.items}/>}
+        {active == 0 && <Blog/>}
         {active == 1 && <Profile/>}
         {active == 2 && <Portfolio/>}
       </div>
