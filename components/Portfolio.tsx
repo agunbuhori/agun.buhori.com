@@ -10,14 +10,6 @@ interface PortfolioSnapshot {
     year: string
 }
 
-const getServerSideProps = async () => {
-    return {
-        props: {
-            name: "Agun Buhori"
-        }
-    }
-}
-
 const PortfolioFetching = () => (
     <div className="grid grid-cols-2 gap-3">
         {
@@ -55,7 +47,6 @@ const Portfolio = (props: InferGetServerSidePropsType<typeof getServerSideProps>
 
     return (
         <div className="grid grid-cols-2 gap-3">
-            <h1>{props.name}</h1>
             {
                 portfolio?.map((item, index) => (
                     <a key={index} href={item.link} target="_blank" rel="noreferrer" className="p-4 rounded-lg border-yellow-200 border">
