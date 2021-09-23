@@ -30,7 +30,7 @@ const PortfolioFetching = () => (
     </div>
 )
 
-const Portfolio = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Portfolio = () => {
     const [fetching, setFetching] = useState(true)
     const [portfolio, setPortfolio] = useState<PortfolioSnapshot[]>()
 
