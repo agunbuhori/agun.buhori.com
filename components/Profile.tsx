@@ -5,38 +5,44 @@ import { ProfileSnapshot } from "../interfaces/Profile"
 
 const dbRef = ref(getDatabase())
 
-const ProfileFetching = () => {
-    return (
-        <div className="animate-pulse flex">
-            <div className="flex-1">
-                <div className="flex flex-col items-center mb-6">
-                    <div className="h-4 bg-yellow-200 opacity-25 w-2/6 rounded mb-2"></div>
-                    <div className="h-2 bg-gray-600 w-5/6 rounded mb-2"></div>
-                    <div className="h-2 bg-gray-600 w-full rounded mb-2"></div>
-                    <div className="h-2 bg-gray-600 w-5/6 rounded mb-2"></div>
-                    <div className="h-2 bg-gray-600 w-full rounded mb-2"></div>
-                    <div className="h-2 bg-gray-600 w-4/6 rounded mb-2"></div>
+const ProfileFetching = () => (
+    <div className="animate-pulse flex">
+        <div className="flex-1">
+            <div className="flex flex-col items-center mb-6">
+                <div className="h-4 bg-yellow-200 opacity-25 w-2/6 rounded mb-2"></div>
+                <div className="h-2 bg-gray-600 w-5/6 rounded mb-2"></div>
+                <div className="h-2 bg-gray-600 w-full rounded mb-2"></div>
+                <div className="h-2 bg-gray-600 w-5/6 rounded mb-2"></div>
+                <div className="h-2 bg-gray-600 w-full rounded mb-2"></div>
+                <div className="h-2 bg-gray-600 w-4/6 rounded mb-2"></div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="">
+                    <div className="h-2 bg-gray-600 w-3/6 rounded mb-2"></div>
+                    <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
+                    <div className="h-2 bg-gray-600 w-3/6 rounded mt-3 mb-2"></div>
+                    <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
+                    <div className="h-2 bg-gray-600 w-3/6 rounded mt-3 mb-2"></div>
+                    <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="">
-                        <div className="h-2 bg-gray-600 w-3/6 rounded mb-2"></div>
-                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
-                        <div className="h-2 bg-gray-600 w-3/6 rounded mt-3 mb-2"></div>
-                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
-                        <div className="h-2 bg-gray-600 w-3/6 rounded mt-3 mb-2"></div>
-                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
-                    </div>
-                    
-                    <div className="">
-                        <div className="h-2 bg-gray-600 w-3/6 rounded mb-2"></div>
-                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full mb-4"></div>
-                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full mb-4"></div>
-                    </div>
+        
+                <div className="">
+                    <div className="h-2 bg-gray-600 w-3/6 rounded mb-2"></div>
+                    <div className="h-4 bg-yellow-200 opacity-25 rounded w-full mb-4"></div>
+                    <div className="h-4 bg-yellow-200 opacity-25 rounded w-full mb-4"></div>
                 </div>
             </div>
         </div>
-    )
-}
+    </div>
+)
+
+const ProfileItem = ({label, value}: {label: string, value: string}) => (
+    <div className="mb-2">
+        <label className="font-semibold text-gray-200">{label}</label>
+        <h2 className="font-bold text-yellow-200 text-lg leading-5">{value}</h2>
+    </div>
+)
 
 const Profile: NextPage = () => {
     const [fetching, setFetching] = useState(true)
@@ -62,20 +68,9 @@ const Profile: NextPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                    <div className="mb-2">
-                        <label className="font-semibold text-gray-200">Nickname</label>
-                        <h2 className="font-bold text-yellow-200 text-lg leading-5">Agun</h2>
-                    </div>
-                    
-                    <div className="mb-2">
-                        <label className="font-semibold text-gray-200">Birth</label>
-                        <h2 className="font-bold text-yellow-200 text-lg leading-5">March 1998</h2>
-                    </div>
-
-                    <div className="mb-2">
-                        <label className="font-semibold text-gray-200">Address</label>
-                        <h2 className="font-bold text-yellow-200 text-lg leading-5">Bandung City, West Java, Indonesia</h2>
-                    </div>
+                    <ProfileItem label="Nickname" value="Agun Buhori"/>
+                    <ProfileItem label="Birth" value="March 1998"/>
+                    <ProfileItem label="Address" value="Bandung City, West Java, Indonesia"/>
                     
                     <div className="mb-2">
                         <label className="font-semibold text-gray-200">Skills</label>

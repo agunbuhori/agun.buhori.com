@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getDatabase, ref, get, child } from 'firebase/database'
+import { InferGetServerSidePropsType } from "next"
 
 const dbRef = ref(getDatabase())
 
@@ -9,37 +10,35 @@ interface PortfolioSnapshot {
     year: string
 }
 
-const PortfolioFetching = () => {
-    return (
-        <div className="grid grid-cols-2 gap-3">
-
-        <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
-            <div className="animate-pulse flex space-x-4">
-            <div className="flex-1 space-y-4 py-1">
-                <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
-                <div className="space-y-2">
-                <div className="h-2 bg-gray-600 rounded w-5/6"></div>
-                </div>
-            </div>
-            </div>
-        </div>
-        
-        <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
-            <div className="animate-pulse flex space-x-4">
-            <div className="flex-1 space-y-4 py-1">
-                <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
-                <div className="space-y-2">
-                <div className="h-2 bg-gray-600 rounded w-5/6"></div>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        </div>
-    )
+const getServerSideProps = async () => {
+    return {
+        props: {
+            name: "Agun Buhori"
+        }
+    }
 }
 
-const Portfolio = () => {
+const PortfolioFetching = () => (
+    <div className="grid grid-cols-2 gap-3">
+        {
+            [...Array(4)].map((item, index) => (
+                <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto" key={index}>
+                    <div className="animate-pulse flex space-x-4">
+                    <div className="flex-1 space-y-4 py-1">
+                        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
+                        <div className="space-y-2">
+                        <div className="h-2 bg-gray-600 rounded w-5/6"></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            ))
+        }
+        
+    </div>
+)
+
+const Portfolio = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const [fetching, setFetching] = useState(true)
     const [portfolio, setPortfolio] = useState<PortfolioSnapshot[]>()
 
@@ -56,6 +55,7 @@ const Portfolio = () => {
 
     return (
         <div className="grid grid-cols-2 gap-3">
+            <h1>{props.name}</h1>
             {
                 portfolio?.map((item, index) => (
                     <a key={index} href={item.link} target="_blank" rel="noreferrer" className="p-4 rounded-lg border-yellow-200 border">

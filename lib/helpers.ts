@@ -2,7 +2,7 @@ export function formatDate(str: string) {
     let date = new Date(str)
     let year = date.getFullYear()
     let month = date.getMonth()
-    let day = date.getDay()
+    let day = date.getDate()
     let hour = date.getHours()
     let minutes = date.getMinutes()
 
