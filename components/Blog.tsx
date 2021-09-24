@@ -3,7 +3,6 @@ import { BlogResult } from '../interfaces/Blog'
 import Link from 'next/link'
 import { formatDate } from '../lib/helpers'
 import { useFetch } from '../lib/useFetch'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
 
 const BlogFetching = () => (
   <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
@@ -19,7 +18,7 @@ const BlogFetching = () => (
   </div>
 )
 
-const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Blog = () => {
   const {fetching, data: blog} = useFetch<BlogResult>('posts')
   
   if (fetching) return <BlogFetching/>
