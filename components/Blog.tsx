@@ -5,7 +5,6 @@ import { formatDate } from '../lib/helpers'
 import { useFetch } from '../lib/useFetch'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 
-
 const BlogFetching = () => (
   <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
     <div className="animate-pulse flex space-x-4">
@@ -19,7 +18,6 @@ const BlogFetching = () => (
     </div>
   </div>
 )
-  
 
 const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const {fetching, data: blog} = useFetch<BlogResult>('posts')
@@ -28,7 +26,6 @@ const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <div className="space-y-3">
-      <h1>{props.todos}</h1> 
       {blog?.items.map((item, index) => (
         <Link key={index} passHref href={'/read/'+item.id}>
           <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
@@ -40,13 +37,5 @@ const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
     </div>
   )
 }
-
-export const getStaticProps: GetStaticProps = (context) => ({
-  
-  props: {
-    todos: 'hahaha'
-  }
-
-})
 
 export default Blog

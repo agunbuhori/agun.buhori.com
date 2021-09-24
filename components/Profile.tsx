@@ -57,9 +57,8 @@ const Profile: NextPage = () => {
        })
     }, [])
 
-    if (fetching) {
-        return <ProfileFetching/>
-    }
+    if (fetching) return <ProfileFetching/>
+    
     return (
         <>
             <div className="text-gray-200 text-center mb-6">
