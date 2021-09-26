@@ -35,6 +35,7 @@ const Index = () => {
   }, [])
   
   if (fetching) return <BlogFetching/>
+  
 
   return (
     <div className="space-y-3">
