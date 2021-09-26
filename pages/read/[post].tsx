@@ -4,7 +4,6 @@ import { useRouter } from "next/dist/client/router"
 import { useEffect, useState } from "react"
 import { Item } from "../../interfaces/Blog"
 import { http } from "../../lib/useFetch"
-import style from '../../styles/index.module.sass'
 import Head from 'next/head'
 import { formatDate } from "../../lib/helpers"
 
@@ -42,15 +41,11 @@ const Post: NextPage = () => {
   }, [router.query])
 
   if (fetching) {
-    return (
-      <div className={style.wrapper}>
-        <PostFetching/>
-      </div>
-    )
+    return <PostFetching/>
   }
   
   return (
-    <div className={style.wrapper}>
+    <div>
       <Head>
         <title>{post?.title ?? 'Loading...'}</title>
       </Head>

@@ -2,7 +2,7 @@ import { NextPage } from "next"
 import { getDatabase, ref, get, child } from 'firebase/database'
 import { useEffect, useState } from "react"
 import { ProfileSnapshot } from "../interfaces/Profile"
-
+import Head from 'next/head'
 const dbRef = ref(getDatabase())
 
 const ProfileFetching = () => (
@@ -61,6 +61,9 @@ const Profile: NextPage = () => {
     
     return (
         <>
+            <Head>
+                <title>Profile - Agun Buhori</title>
+            </Head>
             <div className="text-gray-200 text-center mb-6">
                 <h2 className="bh-font text-xl text-yellow-200">Hello there!</h2>
                 <p>{profile?.summary}</p>

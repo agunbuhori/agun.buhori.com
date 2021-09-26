@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { getDatabase, ref, get, child } from 'firebase/database'
+import Head from 'next/head'
+import { NextPage } from "next"
 
 const dbRef = ref(getDatabase())
 
@@ -11,7 +13,7 @@ interface PortfolioSnapshot {
 
 const PortfolioFetching = () => (
     <div className="grid grid-cols-2 gap-3">
-        {[...Array(4)].map((index) => (
+        {[...Array(4)].map((item, index) => (
             <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto" key={index}>
                 <div className="animate-pulse flex space-x-4">
                     <div className="flex-1 space-y-4 py-1">
@@ -26,7 +28,7 @@ const PortfolioFetching = () => (
     </div>
 )
 
-const Portfolio = () => {
+const Portfolio: NextPage = () => {
     const [fetching, setFetching] = useState(true)
     const [portfolio, setPortfolio] = useState<PortfolioSnapshot[]>()
 
@@ -43,6 +45,10 @@ const Portfolio = () => {
 
     return (
         <div className="grid grid-cols-2 gap-3">
+            <Head>
+                <title>Portfolio - Agun Buhori</title>
+            </Head>
+
             {portfolio?.map((item, index) => (
                 <a key={index} href={item.link} target="_blank" rel="noreferrer" className="p-4 rounded-lg border-yellow-200 border">
                     <h2 className="font-bold text-yellow-200">{item.name}</h2>

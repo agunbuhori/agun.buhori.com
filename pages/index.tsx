@@ -1,72 +1,40 @@
-import React, { useCallback,  useState } from 'react'
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import style from '../styles/index.module.sass'
-import { Code, Codesandbox, Facebook, GitHub, Linkedin, Mail, Twitter } from 'react-feather'
-import Blog from '../components/Blog'
-import Profile from '../components/Profile'
-import Portfolio from '../components/Portfolio'
+import React from 'react'
+import Link from 'next/link'
+import { BlogResult } from '../interfaces/Blog'
+import { formatDate } from '../lib/helpers'
+import { useFetch } from '../lib/useFetch'
 
-const links = [
-  {component: <GitHub color="white"/>, link: 'https://github.com/agunbuhori'},
-  {component: <Codesandbox color="white"/>, link: 'https://codesandbox.io/u/agunbuhori'},
-  {component: <Code color="white"/>, link: 'https://hackerrank.com/agunbuhori'},
-  {component: <Linkedin color="white"/>, link: 'https://linkedin.com/in/agunbuhori'},
-  {component: <Twitter color="white"/>, link: 'https://twitter.com/agunbuhori'},
-  {component: <Facebook color="white"/>, link: 'https://facebook.com/agunbhr'},
-  {component: <Mail color="white"/>, link: 'mailto:agun.buhori@gmail.com'}
-]
-
-const Header = () => (
-  <div className="flex flex-col items-center justify-center">
-    <h1 className="text-4xl bh-font text-yellow-200">Agun Buhori</h1>
-    <h4 className="text-xl font-semibold text-white">Software Engineer</h4>
-    
-    <div className="my-6 flex w-full space-x-4 justify-center">
-      {links.map((link, index) => (
-        <a href={link.link} target="_blank" rel="noreferrer" key={index}>
-          {link.component}
-        </a>
-      ))}
+const BlogFetching = () => (
+  <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
+    <div className="animate-pulse flex space-x-4">
+      <div className="flex-1 space-y-2 py-1">
+        <div className="h-4 bg-yellow-200 opacity-25 rounded w-full"></div>
+        <div className="h-4 bg-yellow-200 opacity-25 rounded w-3/4"></div>
+        <div className="space-y-2">
+          <div className="h-2 bg-gray-600 rounded w-5/6"></div>
+        </div>
+      </div>
     </div>
   </div>
 )
 
-const tabs = ["Blog", "My Profile", "Portfolio"]
-const Tab = ({active, changeTab}: {active: number, changeTab: Function}) => (
-  <div className="mb-5 w-full flex justify-center">
-    {tabs.map((tab, index) => (
-      <a href="javascript:void(0)" onClick={() => changeTab(index)} key={index} className={'border-b-2 transition-all p-2 text-lg font-bold ' + (active == index ? 'text-yellow-200 border-yellow-200' : 'text-gray-500 border-gray-500')}>{tab}</a>
-    ))}
-  </div>
-)
-
-const TabMemo = React.memo(Tab)
-
-const Home: NextPage = () => {
-  const [active, setActive] = useState(0)
-
-  const changeTab = useCallback((id) => {
-    setActive(id)
-  }, [])
+const Index = () => {
+  const {fetching, data: blog} = useFetch<BlogResult>('posts')
+  
+  if (fetching) return <BlogFetching/>
 
   return (
-    <div>
-      <Head>
-        <title>Agun Buhori</title>
-        <meta name="description" content="Software Engineer" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <div className={style.wrapper}>
-        <Header/>
-        <TabMemo active={active} changeTab={changeTab}/>
-        {active == 0 && <Blog/>}
-        {active == 1 && <Profile/>}
-        {active == 2 && <Portfolio/>}
-      </div>
+    <div className="space-y-3">
+      {blog?.items.map((item, index) => (
+        <Link key={index} passHref href={'/read/'+item.id}>
+          <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
+            <h4 className="font-bold text-xl text-yellow-200 hover:text-yellow-300 transition-all">{item.title}</h4>
+            <span className="text-gray-200 text-sm">{item.author.displayName}, {formatDate(item.published)}</span>
+          </div>
+        </Link>
+      ))}
     </div>
   )
 }
 
-export default Home
+export default Index
