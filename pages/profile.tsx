@@ -3,6 +3,7 @@ import { getDatabase, ref, get, child } from 'firebase/database'
 import { useEffect, useState } from "react"
 import { ProfileSnapshot } from "../interfaces/Profile"
 import Head from 'next/head'
+import isMounted from "../lib/isMounted"
 const dbRef = ref(getDatabase())
 
 const ProfileFetching = () => (
@@ -47,12 +48,13 @@ const ProfileItem = ({label, value}: {label: string, value: string}) => (
 const Profile: NextPage = () => {
     const [fetching, setFetching] = useState(true)
     const [profile, setProfile] = useState<ProfileSnapshot>()
+    const mounted = isMounted()
 
     useEffect(() => {
        get(child(dbRef, 'profile')).then(snapshot => {
-           if (snapshot.exists()) {
-               setProfile(snapshot.val())
-               setFetching(false)
+           if (snapshot.exists() && mounted) {
+                setProfile(snapshot.val())
+                setFetching(false)
            }
        })
     }, [])

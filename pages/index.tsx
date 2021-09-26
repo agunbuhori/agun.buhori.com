@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { BlogResult } from '../interfaces/Blog'
+import { Blog, BlogResult } from '../interfaces/Blog'
 import { formatDate } from '../lib/helpers'
-import { useFetch } from '../lib/useFetch'
+import { http, useFetch } from '../lib/useFetch'
+import isMounted from '../lib/isMounted'
+import { AxiosResponse } from 'axios'
 
 const BlogFetching = () => (
   <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
@@ -19,7 +21,18 @@ const BlogFetching = () => (
 )
 
 const Index = () => {
-  const {fetching, data: blog} = useFetch<BlogResult>('posts')
+  const [fetching, setFetching] = useState(true)
+  const [blog, setBlog] = useState<BlogResult>()
+  const mounted = isMounted()
+
+  useEffect(() => {
+    http.get('posts').then((response: AxiosResponse<BlogResult>) => {
+      if (mounted) {
+        setFetching(false)
+        setBlog(response.data)
+      }
+    })
+  }, [])
   
   if (fetching) return <BlogFetching/>
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { getDatabase, ref, get, child } from 'firebase/database'
 import Head from 'next/head'
 import { NextPage } from "next"
+import isMounted from "../lib/isMounted"
 
 const dbRef = ref(getDatabase())
 
@@ -31,12 +32,13 @@ const PortfolioFetching = () => (
 const Portfolio: NextPage = () => {
     const [fetching, setFetching] = useState(true)
     const [portfolio, setPortfolio] = useState<PortfolioSnapshot[]>()
+    const mounted = isMounted()
 
     useEffect(() => {
        get(child(dbRef, 'portfolio')).then(snapshot => {
-           if (snapshot.exists()) {
-               setPortfolio(snapshot.val())
-               setFetching(false)
+           if (snapshot.exists() && mounted) {
+                setPortfolio(snapshot.val())
+                setFetching(false)
            }
        })
     }, [])
