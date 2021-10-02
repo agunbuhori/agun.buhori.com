@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Blog, BlogResult } from '../interfaces/Blog'
+import Head from 'next/head'
+import { BlogResult } from '../interfaces/Blog'
 import { formatDate } from '../lib/helpers'
-import { http, useFetch } from '../lib/useFetch'
-import isMounted from '../lib/isMounted'
+import { http } from '../lib/useFetch'
 import { AxiosResponse } from 'axios'
-
+import { NextPage } from 'next'
 const BlogFetching = () => (
   <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
     <div className="animate-pulse flex space-x-4">
@@ -20,17 +20,14 @@ const BlogFetching = () => (
   </div>
 )
 
-const Index = () => {
+const Index: NextPage = () => {
   const [fetching, setFetching] = useState(true)
   const [blog, setBlog] = useState<BlogResult>()
-  const mounted = isMounted()
 
   useEffect(() => {
     http.get('posts').then((response: AxiosResponse<BlogResult>) => {
-      if (mounted) {
-        setFetching(false)
-        setBlog(response.data)
-      }
+      setFetching(false)
+      setBlog(response.data)
     })
   }, [])
   
@@ -39,10 +36,14 @@ const Index = () => {
 
   return (
     <div className="space-y-3">
+      <Head>
+          <title>Agun Buhori</title>
+      </Head>
+      
       {blog?.items.map((item, index) => (
         <Link key={index} passHref href={'/read/'+item.id}>
-          <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-300 cursor-pointer">
-            <h4 className="font-bold text-xl text-yellow-200 hover:text-yellow-300 transition-all">{item.title}</h4>
+          <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-200 cursor-pointer">
+            <h4 className="font-bold text-xl text-yellow-200 hover:text-yellow-200 transition-all">{item.title}</h4>
             <span className="text-gray-200 text-sm">{item.author.displayName}, {formatDate(item.published)}</span>
           </div>
         </Link>

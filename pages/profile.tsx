@@ -1,9 +1,8 @@
 import { NextPage } from "next"
 import { getDatabase, ref, get, child } from 'firebase/database'
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ProfileSnapshot } from "../interfaces/Profile"
 import Head from 'next/head'
-import isMounted from "../lib/isMounted"
 const dbRef = ref(getDatabase())
 
 const ProfileFetching = () => (
@@ -48,14 +47,12 @@ const ProfileItem = ({label, value}: {label: string, value: string}) => (
 const Profile: NextPage = () => {
     const [fetching, setFetching] = useState(true)
     const [profile, setProfile] = useState<ProfileSnapshot>()
-    const mounted = isMounted()
+    const mountedRef = useRef(true)
 
     useEffect(() => {
        get(child(dbRef, 'profile')).then(snapshot => {
-           if (snapshot.exists() && mounted) {
-                setProfile(snapshot.val())
-                setFetching(false)
-           }
+           setProfile(snapshot.val())
+           setFetching(false)
        })
     }, [])
 
@@ -97,7 +94,7 @@ const Profile: NextPage = () => {
                                 <div className="border-l-4 pl-4 border-yellow-200">
                                 <h1 className="text-lg leading-5 text-yellow-200 font-bold">{item.name}</h1>
                                     <h2 className="text-gray-100 text-sm">{item.course}</h2>
-                                    <h2 className="text-yellow-100 font-semibold text-xs">{item.year}</h2>
+                                    <h2 className="text-yellow-200 font-semibold text-xs">{item.year}</h2>
                                 </div>
                             </div>
                         ))}
@@ -113,7 +110,7 @@ const Profile: NextPage = () => {
                                 <div className="border-l-4 pl-4 border-yellow-200">
                                     <h1 className="text-lg leading-5 text-yellow-200 font-bold">{item.name}</h1>
                                     <h2 className="text-gray-100 text-sm">{item.role}</h2>
-                                    <h2 className="text-yellow-100 font-semibold text-xs">{item.year}</h2>
+                                    <h2 className="text-yellow-200 font-semibold text-xs">{item.year}</h2>
                                 </div>
                             </div>
                         ))}

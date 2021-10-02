@@ -55,6 +55,7 @@ const tabs = [
 
 const Tab = () => {
   const router = useRouter()
+
   return (
     <div className="mb-5 w-full flex justify-center">
       {tabs.map((tab, index) => (
@@ -70,6 +71,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     getAnalytics(app)
   }, [])
+  const router = useRouter()
 
   return (
     <div className="py-6 px-6 md:px-0 max-w-screen-sm mx-auto">
