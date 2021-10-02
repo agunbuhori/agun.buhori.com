@@ -52,7 +52,6 @@ const tabs = [
   {link: '/portfolio', title: 'Portfolio'}
 ]
 
-
 const Tab = () => {
   const router = useRouter()
 
@@ -71,7 +70,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     getAnalytics(app)
   }, [])
-  const router = useRouter()
 
   return (
     <div className="py-6 px-6 md:px-0 max-w-screen-sm mx-auto">

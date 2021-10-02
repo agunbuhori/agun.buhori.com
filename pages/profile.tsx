@@ -63,10 +63,12 @@ const Profile: NextPage = () => {
             <Head>
                 <title>Profile - Agun Buhori</title>
             </Head>
+
             <div className="text-gray-200 text-center mb-6">
                 <h2 className="bh-font text-xl text-yellow-200">Hello there!</h2>
                 <p>{profile?.summary}</p>
             </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                     <ProfileItem label="Nickname" value="Agun Buhori"/>

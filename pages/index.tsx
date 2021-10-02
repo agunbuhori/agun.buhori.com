@@ -6,6 +6,7 @@ import { formatDate } from '../lib/helpers'
 import { http } from '../lib/useFetch'
 import { AxiosResponse } from 'axios'
 import { NextPage } from 'next'
+
 const BlogFetching = () => (
   <div className="border border-yellow-200 border-opacity-25 shadow rounded-lg p-4 w-full mx-auto">
     <div className="animate-pulse flex space-x-4">
@@ -39,7 +40,7 @@ const Index: NextPage = () => {
       <Head>
           <title>Agun Buhori</title>
       </Head>
-      
+
       {blog?.items.map((item, index) => (
         <Link key={index} passHref href={'/read/'+item.id}>
           <div data-aos="fade-up" className="rounded-lg border-2 border-yellow-200 p-4 transition-all hover:border-yellow-200 cursor-pointer">
